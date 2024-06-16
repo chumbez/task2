@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Map with Custom Popup - Leaflet</title>
+    <title>Custom Popup with Location Name - Leaflet</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         #map { height: 400px; }
@@ -17,28 +17,27 @@
         // Initialize the map
         var map = L.map('map').setView([51.505, -0.09], 13);
 
-        // Add the tile layer - replace 'mapbox/streets-v11' with your preferred map source
+        // Add the tile layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Custom icon (optional)
-        var customIcon = L.icon({
-            iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png',
-            iconSize: [38, 95],
-            iconAnchor: [22, 94],
-            popupAnchor: [-3, -76]
+        // Sample locations with names
+        var locations = [
+            { name: 'Location A', coordinates: [51.5, -0.09] },
+            { name: 'Location B', coordinates: [51.51, -0.1] },
+            { name: 'Location C', coordinates: [51.49, -0.1] }
+        ];
+
+        // Loop through locations and add markers with custom popups
+        locations.forEach(function(location) {
+            var marker = L.marker(location.coordinates).addTo(map);
+            var popupContent = `
+                <h2>${location.name}</h2>
+                <p>Additional information about ${location.name}.</p>
+            `;
+            marker.bindPopup(popupContent);
         });
-
-        // Custom popup content
-        var popupContent = `
-            <h2>Custom Popup</h2>
-            <p>This is a custom popup with additional information.</p>
-        `;
-
-        // Add marker with custom icon and popup
-        var marker = L.marker([51.5, -0.09], { icon: customIcon }).addTo(map);
-        marker.bindPopup(popupContent);
     </script>
 </body>
 </html>
